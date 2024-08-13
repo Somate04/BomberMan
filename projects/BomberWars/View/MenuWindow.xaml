@@ -1,0 +1,287 @@
+﻿<UserControl x:Class="BomberWars.View.MenuWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BomberWars.View"
+        mc:Ignorable="d"
+        >
+    <!--Custom style templates-->
+    <UserControl.Resources>
+        <!--Combobox style-->
+        <Style TargetType="{x:Type ComboBox}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <ToggleButton Grid.Column="2" Focusable="false" IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}" >
+                                <ToggleButton.Template>
+                                    <ControlTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="5*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Border x:Name="Border"  Grid.ColumnSpan="2" CornerRadius="5" Background="#FFEAA7" BorderBrush="Black" BorderThickness="1" />
+                                            <Border Grid.Column="0" CornerRadius="5,0,0,5"  Margin="1"  Background="AliceBlue"  BorderBrush="Black" BorderThickness="0,0,1,0" />
+                                            <Path x:Name="Arrow" Grid.Column="1"  Fill="Gray" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 4 4 L 8 0 Z"/>
+                                        </Grid>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="ToggleButton.IsMouseOver" Value="true">
+                                                <Setter TargetName="Border" Property="Opacity" Value="0.8" />
+                                            </Trigger>
+                                            <Trigger Property="ToggleButton.IsChecked" Value="true">
+                                                <Setter TargetName="Border" Property="Background" Value="#FFEAA7" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <ContentPresenter Name="ContentSite" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False"  Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" Margin="3" TextBlock.Foreground="Black" />
+                            <TextBox x:Name="PART_EditableTextBox" Visibility="Hidden"  IsReadOnly="{TemplateBinding IsReadOnly}"/>
+                            <Popup Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True"  Focusable="False" PopupAnimation="Slide">
+                                <Grid  Name="DropDown" SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                    <Border x:Name="DropDownBorder" Background="#FFEAA7"  CornerRadius="4"/>
+                                    <ScrollViewer SnapsToDevicePixels="True">
+                                        <StackPanel IsItemsHost="True" />
+                                    </ScrollViewer>
+                                </Grid>
+                            </Popup>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+            </Style.Triggers>
+        </Style>
+        
+        <!--Comboboxitem style-->
+        <Style TargetType="{x:Type ComboBoxItem}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                        <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
+                            <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="TextElement.Foreground" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" TargetName="Bd" Value="White"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+        <!--Checkbox style-->
+        <Style x:Key="checkBoxStyleVisualState" TargetType="CheckBox">
+            <Setter Property="FontFamily" Value="Gill Sans"/>
+            <Setter Property="Opacity" Value="0.8"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type CheckBox}">
+                        <Border x:Name="Border" Margin="1" BorderThickness="1" BorderBrush="Black" Background="#FF8F8F" Padding="10, 5" CornerRadius="4" >
+                            <TextBlock x:Name="TextContent" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{TemplateBinding Content}" FontSize="11" FontWeight="Normal" Foreground="White" />
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CheckStates">
+                                    <VisualState x:Name="Unchecked"/>
+                                    <VisualState x:Name="Checked">
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" To="#9ADE7B" Duration="0:0:0.1"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualStateGroup.Transitions>
+                                        <VisualTransition From="Checked" GeneratedDuration="0:0:0.1"/>
+                                    </VisualStateGroup.Transitions>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.99"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--Toggle all button styles-->
+        <Style x:Key="ToggleStyle" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontFamily" Value="Gill Sans"/>
+            <Setter Property="Background" Value="#FFEAA7"/>
+            <Setter Property="Opacity" Value="0.8"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" 
+                                Margin="1"
+                                BorderThickness="1"
+                                BorderBrush="Black"
+                                Background="{Binding SelectAllColor}"
+                                Padding="10, 5"
+                                CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="Black" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Opacity" Value="0.99"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!--Button style-->
+        <Style x:Key="MyButtonStyle" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Foreground" Value="Gray"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontFamily" Value="Gill Sans"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" 
+                        Margin="1"
+                        BorderThickness="1"
+                        BorderBrush="Black"
+                        Background="#FFEAA7"
+                        Padding="10, 5"
+                        CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="Black" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Opacity" Value="0.9"/>
+                    </Trigger>
+                </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="75"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="220"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="210"/>
+            <ColumnDefinition Width="360"/>
+            <ColumnDefinition Width="210"/>
+        </Grid.ColumnDefinitions>
+        
+        <!--Menu background image-->
+        <Grid.Background>
+            <ImageBrush ImageSource="Images/MenuBackground.png" Stretch="UniformToFill"/>
+        </Grid.Background>
+        
+        <!---New game-->
+        <Button Grid.Row="1" Grid.Column="1" Content="NEW GAME" Command="{Binding NewGameCommand}" Style="{StaticResource MyButtonStyle}" Margin="0,0,0,10"/>
+        
+        <!--Game otions-->
+        <TextBlock Grid.Row="2" Grid.Column="1" Text="GAME OPTIONS" Foreground="White" VerticalAlignment="Center" FontSize="15" FontWeight="Bold" FontFamily="Gill Sans"/>
+        
+        <Grid Grid.Row="3" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!--Map selection-->
+            <TextBlock Grid.Column="0" Grid.Row="0" Text="MAP" Foreground="White" HorizontalAlignment="Center"  FontFamily="Gill Sans"/>
+            <ComboBox Grid.Column="0" Grid.Row="1" Name="mapOptions" Text="Choose Map" IsReadOnly="True"
+                      SelectedValue="{Binding SelectedMap}" SelectedValuePath="Tag">
+                <ComboBoxItem Content="First Map    " Tag="0"/>
+                <ComboBoxItem Content="Second Map   " Tag="1"/>
+                <ComboBoxItem Content="Third Map    " Tag="2"/>
+            </ComboBox>
+            
+            <!--Player count selection-->
+            <TextBlock Grid.Column="1" Grid.Row="0" Text="PLAYERS" Foreground="White"  HorizontalAlignment="Center"  FontFamily="Gill Sans"/>
+            <ComboBox Grid.Column="1" Grid.Row="1" x:Name="playerOptions" Text="Select Players" IsReadOnly="True"
+                      SelectedValue="{Binding SelectedPlayerCount}" SelectedValuePath="Tag">
+                <ComboBoxItem Content="2   " Tag="2"/>
+                <ComboBoxItem Content="3   " Tag="3"/>
+            </ComboBox>
+            
+            <!--Game length selection-->
+            <TextBlock Grid.Column="2" Grid.Row="0" Text="LENGTH" Foreground="White"  HorizontalAlignment="Center"  FontFamily="Gill Sans"/>
+            <Grid Grid.Column="2" Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="{Binding SelectedGameLength}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" FontWeight="Bold" FontSize="20" />
+                <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
+                    <Button Content="+" Command="{Binding Increase}" Style="{StaticResource MyButtonStyle}"/>
+                    <Button Content="-" Command="{Binding Decrease}" Style="{StaticResource MyButtonStyle}"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
+        
+        <!--Power up selection-->
+        <TextBlock Grid.Row="4" Grid.Column="1" Text="POWER UPS" Foreground="White" VerticalAlignment="Center" FontSize="15" FontWeight="Bold"  FontFamily="Gill Sans"/>
+        <Grid x:Name="powerUps" Grid.Row="5" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="120"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+            <Button Grid.Row="0" Grid.Column="0" Command="{Binding ToggleAll}" Content="SELECT ALL" Style="{StaticResource ToggleStyle}"/>
+            <CheckBox Grid.Row="1" Grid.Column="0" Content="More bombs" IsChecked="{Binding PowerUp1}" Style="{StaticResource checkBoxStyleVisualState}"/>
+            <CheckBox Grid.Row="2" Grid.Column="0" Content="Bomb range+" IsChecked="{Binding PowerUp2}" Style="{StaticResource checkBoxStyleVisualState}"/>
+            <CheckBox Grid.Row="3" Grid.Column="0" Content="Detonator" IsChecked="{Binding PowerUp3}" Style="{StaticResource checkBoxStyleVisualState}"/>
+            <CheckBox Grid.Row="0" Grid.Column="1" Content="Rollerskates" IsChecked="{Binding PowerUp4}" Style="{StaticResource checkBoxStyleVisualState}"/>
+            <CheckBox Grid.Row="1" Grid.Column="1" Content="Invincibility" IsChecked="{Binding PowerUp5}" Style="{StaticResource checkBoxStyleVisualState}"/>
+            <CheckBox Grid.Row="2" Grid.Column="1" Content="Ghost" IsChecked="{Binding PowerUp6}" Style="{StaticResource checkBoxStyleVisualState}"/>
+            <CheckBox Grid.Row="0" Grid.Column="2" Content="Obstacles" IsChecked="{Binding PowerUp7}" Style="{StaticResource checkBoxStyleVisualState}"/>
+            <CheckBox Grid.Row="1" Grid.Column="2" Content="Slow down" IsChecked="{Binding PowerUp8}" Style="{StaticResource checkBoxStyleVisualState}"/>
+            <CheckBox Grid.Row="2" Grid.Column="2" Content="Bomb range-" IsChecked="{Binding PowerUp9}" Style="{StaticResource checkBoxStyleVisualState}"/>
+            <CheckBox Grid.Row="3" Grid.Column="1" Content="Disable bombs" IsChecked="{Binding PowerUp10}" Style="{StaticResource checkBoxStyleVisualState}"/>
+            <CheckBox Grid.Row="3" Grid.Column="2" Content="Instant bombs" IsChecked="{Binding PowerUp11}" Style="{StaticResource checkBoxStyleVisualState}"/>
+        </Grid>
+        
+        <!--Load game-->
+        <Button Grid.Row="6" Grid.Column="1" Content="LOAD GAME"  Style="{StaticResource MyButtonStyle}" Command="{Binding LoadCommand}" Margin="0,0,0,5"/>
+        <!--Quit-->
+        <Button Grid.Row="7" Grid.Column="1" Content="QUIT"  Style="{StaticResource MyButtonStyle}" Command="{Binding ExitCommand}" Margin="0,0,0,5"/>
+    </Grid>
+</UserControl>

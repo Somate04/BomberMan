@@ -1,0 +1,88 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net7.0-windows</TargetFramework>
+	<EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="View\Images\Bomb.png" />
+    <None Remove="View\Images\Box.png" />
+    <None Remove="View\Images\Dijkstra.png" />
+    <None Remove="View\Images\Explosion.png" />
+    <None Remove="View\Images\GhostBox.png" />
+    <None Remove="View\Images\GhostPath.png" />
+    <None Remove="View\Images\GhostWall.png" />
+    <None Remove="View\Images\help.png" />
+    <None Remove="View\Images\Heuristic.png" />
+    <None Remove="View\Images\load.png" />
+    <None Remove="View\Images\MenuBackground.png" />
+    <None Remove="View\Images\Monster.png" />
+    <None Remove="View\Images\P1.png" />
+    <None Remove="View\Images\P1Box.png" />
+    <None Remove="View\Images\P1Wall.png" />
+    <None Remove="View\Images\P2.png" />
+    <None Remove="View\Images\P2Box.png" />
+    <None Remove="View\Images\P2Wall.png" />
+    <None Remove="View\Images\P3.png" />
+    <None Remove="View\Images\P3Box.png" />
+    <None Remove="View\Images\P3Wall.png" />
+    <None Remove="View\Images\Path.png" />
+    <None Remove="View\Images\pause.png" />
+    <None Remove="View\Images\play.png" />
+    <None Remove="View\Images\plus.png" />
+    <None Remove="View\Images\PowerDown.png" />
+    <None Remove="View\Images\PowerUp.png" />
+    <None Remove="View\Images\quit.png" />
+    <None Remove="View\Images\return.png" />
+    <None Remove="View\Images\Save.png" />
+    <None Remove="View\Images\Wall.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoClosingMessageBox" Version="1.0.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BomberWars_MP\BomberWars_MP.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="View\Images\Bomb.png" />
+    <Resource Include="View\Images\Box.png" />
+    <Resource Include="View\Images\Dijkstra.png" />
+    <Resource Include="View\Images\Explosion.png" />
+    <Resource Include="View\Images\GhostBox.png" />
+    <Resource Include="View\Images\GhostPath.png" />
+    <Resource Include="View\Images\GhostWall.png" />
+    <Resource Include="View\Images\help.png" />
+    <Resource Include="View\Images\Heuristic.png" />
+    <Resource Include="View\Images\load.png" />
+    <Resource Include="View\Images\MenuBackground.png" />
+    <Resource Include="View\Images\Monster.png" />
+    <Resource Include="View\Images\P1.png" />
+    <Resource Include="View\Images\P1Box.png" />
+    <Resource Include="View\Images\P1Wall.png" />
+    <Resource Include="View\Images\P2.png" />
+    <Resource Include="View\Images\P2Box.png" />
+    <Resource Include="View\Images\P2Wall.png" />
+    <Resource Include="View\Images\P3.png" />
+    <Resource Include="View\Images\P3Box.png" />
+    <Resource Include="View\Images\P3Wall.png" />
+    <Resource Include="View\Images\Path.png" />
+    <Resource Include="View\Images\play.png" />
+    <Resource Include="View\Images\pause.png" />
+    <Resource Include="View\Images\plus.png" />
+    <Resource Include="View\Images\PowerDown.png" />
+    <Resource Include="View\Images\PowerUp.png" />
+    <Resource Include="View\Images\quit.png" />
+    <Resource Include="View\Images\return.png" />
+    <Resource Include="View\Images\Save.png" />
+    <Resource Include="View\Images\Wall.png" />
+  </ItemGroup>
+
+</Project>

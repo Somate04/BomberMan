@@ -1,0 +1,29 @@
+﻿<Window x:Class="BomberWars.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ViewModel="clr-namespace:BomberWars.ViewModel"
+        xmlns:local="clr-namespace:BomberWars.View"
+        mc:Ignorable="d"
+        Title="BomberWars" MinWidth="780" MaxWidth="780" MinHeight="720" MaxHeight="720">
+    
+    <!--Controls the current view displayed-->
+    <ContentControl Content="{Binding CurrentViewModel}">
+        <ContentControl.Resources>
+            <DataTemplate DataType="{x:Type ViewModel:MenuViewModel}">
+                <local:MenuWindow/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type ViewModel:GameViewModel}">
+                <local:GameWindow/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type ViewModel:StoredGamesBrowserViewModel}">
+                <local:SaveWindow/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type ViewModel:HelpViewModel}">
+                <local:HelpWindow/>
+            </DataTemplate>
+        </ContentControl.Resources>
+        
+    </ContentControl>
+</Window>

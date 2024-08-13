@@ -1,0 +1,437 @@
+<UserControl x:Class="BomberWars.View.GameWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BomberWars.View"
+        mc:Ignorable="d"
+        >
+    <UserControl.InputBindings>
+        <!--Kex bindings-->
+        <!--Player 1-->
+        <KeyBinding Key="W" Command="{Binding UpCommand}" CommandParameter="0"/>
+        <KeyBinding Key="A" Command="{Binding LeftCommand}" CommandParameter="0"/>
+        <KeyBinding Key="S" Command="{Binding DownCommand}" CommandParameter="0"/>
+        <KeyBinding Key="D" Command="{Binding RightCommand}" CommandParameter="0"/>
+        <KeyBinding Key="Q" Command="{Binding BombCommand}" CommandParameter="0"/>
+        <KeyBinding Key="E" Command="{Binding DetonateCommand}" CommandParameter="0"/>
+        <KeyBinding Key="R" Command="{Binding PlaceObstacle}" CommandParameter="0"/>
+
+        <!--Player 2-->
+        <KeyBinding Key="I" Command="{Binding UpCommand}" CommandParameter="1"/>
+        <KeyBinding Key="J" Command="{Binding LeftCommand}" CommandParameter="1"/>
+        <KeyBinding Key="K" Command="{Binding DownCommand}" CommandParameter="1"/>
+        <KeyBinding Key="L" Command="{Binding RightCommand}" CommandParameter="1"/>
+        <KeyBinding Key="U" Command="{Binding BombCommand}" CommandParameter="1"/>
+        <KeyBinding Key="O" Command="{Binding DetonateCommand}" CommandParameter="1"/>
+        <KeyBinding Key="P" Command="{Binding PlaceObstacle}" CommandParameter="1"/>
+
+        <!--Player 3-->
+        <KeyBinding Key="NumPad8" Command="{Binding UpCommand}" CommandParameter="2"/>
+        <KeyBinding Key="NumPad4" Command="{Binding LeftCommand}" CommandParameter="2"/>
+        <KeyBinding Key="NumPad5" Command="{Binding DownCommand}" CommandParameter="2"/>
+        <KeyBinding Key="NumPad6" Command="{Binding RightCommand}" CommandParameter="2"/>
+        <KeyBinding Key="NumPad7"  Command="{Binding BombCommand}" CommandParameter="2"/>
+        <KeyBinding Key="NumPad9" Command="{Binding DetonateCommand}" CommandParameter="2"/>
+        <KeyBinding Key="Add" Command="{Binding PlaceObstacle}" CommandParameter="2"/>
+    </UserControl.InputBindings>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="720*"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <!--Menu-->
+        <Menu Height="35" VerticalAlignment="Top" FontSize="15" FontWeight="Bold" Padding="0,5,0,0">
+            <Menu.Background>
+                <SolidColorBrush Color="#FFEAA7"/>
+            </Menu.Background>
+
+            <MenuItem Header="Return" Command="{Binding BackCommand}">
+                <MenuItem.Icon>
+                    <Image Source="Images/return.png"/>
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="Pause" Command="{Binding PauseCommand}">
+                <MenuItem.Icon>
+                    <Image Source="{Binding PauseIconPath}"/>
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="New game" Command="{Binding NewGameCommand}">
+                <MenuItem.Icon>
+                    <Image Source="Images/plus.png"/>
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="Save game" Command="{Binding SaveGameCommand}">
+                <MenuItem.Icon>
+                    <Image Source="Images/Save.png"/>
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="Load game" Command="{Binding LoadGameCommand}">
+                <MenuItem.Icon>
+                    <Image Source="Images/load.png"/>
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="Help" Command="{Binding HelpCommand}">
+                <MenuItem.Icon>
+                    <Image Source="Images/help.png"/>
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="Quit" Command="{Binding ExitCommand}" Margin="120,0,0,0">
+                <MenuItem.Icon>
+                    <Image Source="Images/quit.png"/>
+                </MenuItem.Icon>
+            </MenuItem>
+        </Menu>
+        
+        <!--Play area-->
+        <ItemsControl ItemsSource="{Binding Fields}" Grid.Row="1">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Rows="{Binding M}" Columns="{Binding N}" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Rectangle>
+                        <Rectangle.Style>
+                            <Style TargetType="Rectangle">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Type}" Value="Path">
+                                        <Setter Property="Fill">
+                                            <Setter.Value>
+                                                <ImageBrush Stretch="UniformToFill" ImageSource="Images/Path.png" />
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Type}" Value="P1">
+                                        <Setter Property="Fill">
+                                            <Setter.Value>
+                                                <ImageBrush Stretch="UniformToFill" ImageSource="Images/P1.png" />
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Type}" Value="P2">
+                                        <Setter Property="Fill">
+                                            <Setter.Value>
+                                                <ImageBrush Stretch="UniformToFill" ImageSource="Images/P2.png" />
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Type}" Value="P3">
+                                        <Setter Property="Fill">
+                                            <Setter.Value>
+                                                <ImageBrush  ImageSource="Images/P3.png" Stretch="UniformToFill"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Type}" Value="P1Wall">
+                                        <Setter Property="Fill">
+                                            <Setter.Value>
+                                                <ImageBrush  ImageSource="Images/P1Wall.png" Stretch="UniformToFill"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Type}" Value="P2Wall">
+                                        <Setter Property="Fill">
+                                            <Setter.Value>
+                                                <ImageBrush  ImageSource="Images/P2Wall.png" Stretch="UniformToFill"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Type}" Value="P3Wall">
+                                        <Setter Property="Fill">
+                                            <Setter.Value>
+                                                <ImageBrush  ImageSource="Images/P3Wall.png" Stretch="UniformToFill"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Type}" Value="P1Box">
+                                        <Setter Property="Fill">
+                                            <Setter.Value>
+                                                <ImageBrush  ImageSource="Images/P1Box.png" Stretch="UniformToFill"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Type}" Value="P2Box">
+                                        <Setter Property="Fill">
+                                            <Setter.Value>
+                                                <ImageBrush  ImageSource="Images/P2Box.png" Stretch="UniformToFill"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Type}" Value="P3Box">
+                                        <Setter Property="Fill">
+                                            <Setter.Value>
+                                                <ImageBrush  ImageSource="Images/P3Box.png" Stretch="UniformToFill"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Type}" Value="Wall">
+                                        <Setter Property="Fill">
+                                            <Setter.Value>
+                                                <ImageBrush Stretch="UniformToFill" ImageSource="Images/Wall.png" />
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Type}" Value="Box">
+                                        <Setter Property="Fill">
+                                            <Setter.Value>
+                                                <ImageBrush Stretch="UniformToFill" ImageSource="Images/Box.png" />
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Type}" Value="PlayerBox">
+                                        <Setter Property="Fill">
+                                            <Setter.Value>
+                                                <ImageBrush Stretch="UniformToFill" ImageSource="Images/Box.png" />
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Type}" Value="Monster">
+                                        <Setter Property="Fill">
+                                            <Setter.Value>
+                                                <ImageBrush Stretch="UniformToFill" ImageSource="Images/Monster.png" />
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Type}" Value="GhostWall">
+                                        <Setter Property="Fill">
+                                            <Setter.Value>
+                                                <ImageBrush Stretch="UniformToFill" ImageSource="Images/GhostWall.png" />
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Type}" Value="GhostBox">
+                                        <Setter Property="Fill">
+                                            <Setter.Value>
+                                                <ImageBrush Stretch="UniformToFill" ImageSource="Images/GhostBox.png" />
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Type}" Value="GhostPath">
+                                        <Setter Property="Fill">
+                                            <Setter.Value>
+                                                <ImageBrush Stretch="UniformToFill" ImageSource="Images/GhostPath.png" />
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Type}" Value="DijkstraMonster">
+                                        <Setter Property="Fill">
+                                            <Setter.Value>
+                                                <ImageBrush Stretch="UniformToFill" ImageSource="Images/Dijkstra.png" />
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Type}" Value="HeuristicMonster">
+                                        <Setter Property="Fill">
+                                            <Setter.Value>
+                                                <ImageBrush Stretch="UniformToFill" ImageSource="Images/Heuristic.png" />
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Type}" Value="Bomb">
+                                        <Setter Property="Fill">
+                                            <Setter.Value>
+                                                <ImageBrush Stretch="UniformToFill" ImageSource="Images/Bomb.png" />
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Type}" Value="Explosion">
+                                        <Setter Property="Fill">
+                                            <Setter.Value>
+                                                <ImageBrush Stretch="UniformToFill" ImageSource="Images/Explosion.png" />
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Type}" Value="PowerUp">
+                                        <Setter Property="Fill">
+                                            <Setter.Value>
+                                                <ImageBrush Stretch="UniformToFill" ImageSource="Images/PowerUp.png" />
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Type}" Value="PowerDown">
+                                        <Setter Property="Fill">
+                                            <Setter.Value>
+                                                <ImageBrush Stretch="UniformToFill" ImageSource="Images/PowerDown.png" />
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Rectangle.Style>
+                    </Rectangle>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemContainerStyle>
+                <Style>
+                    <Setter Property="Grid.Row" Value="{Binding X}" />
+                    <Setter Property="Grid.Column" Value="{Binding Y}" />
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+        </ItemsControl>
+
+        <!--Player info-->
+        <!--Player scores-->
+        <ItemsControl ItemsSource="{Binding Players}" Grid.Row="2" Height="50">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Rows="1" Columns="{Binding PlayerNumber}" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Rectangle>
+                        <Rectangle.Style>
+                            <Style TargetType="Rectangle">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding PlayerId}" Value="0">
+                                            <Setter Property="Fill" Value="Purple" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding PlayerId}" Value="1">
+                                        <Setter Property="Fill" Value="DarkBlue" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding PlayerId}" Value="2">
+                                        <Setter Property="Fill" Value="SaddleBrown" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Rectangle.Style>
+                    </Rectangle>
+                        <TextBlock Text="{Binding Points}" FontSize="35" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemContainerStyle>
+                <Style>
+                    <Setter Property="Grid.Column" Value="{Binding PlayerId}"/>
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+        </ItemsControl>
+
+        <!--Power up info-->
+        <ItemsControl Grid.Row="3" ItemsSource="{Binding Players}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Rows="1" Columns="{Binding PlayerNumber}" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Margin="5">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Range"/>
+                                <TextBlock Grid.Column="1" Text="{Binding Range}" HorizontalAlignment="Right"/>
+                            </Grid>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Max. bombs"/>
+                                <TextBlock Grid.Column="1" Text="{Binding MaxBombs}" HorizontalAlignment="Right"/>
+                            </Grid>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Bombs placed"/>
+                                <TextBlock Grid.Column="1" Text="{Binding CurrentBombs}" HorizontalAlignment="Right"/>
+                            </Grid>
+                            <Grid Visibility="{Binding PU4}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Speed"/>
+                                <TextBlock Grid.Column="1" Text="{Binding Speed, StringFormat={}{0}%}" HorizontalAlignment="Right"/>
+                            </Grid>
+                            <Grid Visibility="{Binding PU5}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Invincibility" Foreground="{Binding Invincibility}"/>
+                                <TextBlock Grid.Column="1" Text="{Binding InvincibilityCoolDown}" HorizontalAlignment="Right"/>
+                            </Grid>
+                            <TextBlock  Visibility="{Binding PU3}" Text="Detonator" Foreground="{Binding Detonator}"/>
+                            <Grid Visibility="{Binding PU6}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Ghost &#x0a;mode" Foreground="{Binding GhostMode}"/>
+                                <TextBlock Grid.Column="1" Text="{Binding GhostModeCoolDown}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                            </Grid>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1">
+
+                            <Grid Visibility="{Binding PU7}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Obstacles"/>
+                                <TextBlock Grid.Column="1" Text="{Binding NumberOfObstacles}" HorizontalAlignment="Right"/>
+                            </Grid>
+                            <Grid Visibility="{Binding PU8}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Slowed"/>
+                                <TextBlock Grid.Column="1" Text="{Binding SlowDownCoolDown}" HorizontalAlignment="Right"/>
+                            </Grid>
+                            <Grid Visibility="{Binding PU9}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Range-"/>
+                                <TextBlock Grid.Column="1" Text="{Binding RangeDecreaseCoolDown}" HorizontalAlignment="Right"/>
+                            </Grid>
+                            <Grid Visibility="{Binding PU10}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Bombs &#x0a;disabled"/>
+                                <TextBlock Grid.Column="1" Text="{Binding BombPlacementDisabledCoolDown}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                            </Grid>
+                            <Grid Visibility="{Binding PU11}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Instant &#x0a;placement" Foreground="{Binding InstantPlacement}"/>
+                                <TextBlock Grid.Column="1" Text="{Binding InstantPlacementCoolDown}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                            </Grid>
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemContainerStyle>
+                <Style>
+                    <Setter Property="Grid.Column" Value="{Binding PlayerId}"/>
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+        </ItemsControl>
+                   
+    </Grid>
+    
+</UserControl>
