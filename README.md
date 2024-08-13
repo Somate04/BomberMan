@@ -75,8 +75,6 @@ Amennyiben valamelyik játékos felrobban vagy egy szörny elkapja, a játék m�
 
 ## CI/CD
 
-- CI/CD konfiguráció: https://szofttech.inf.elte.hu/szofttech-ab-2024/group-08/bomberwars/-/ci/editor
-- Tests: https://szofttech.inf.elte.hu/szofttech-ab-2024/group-08/bomberwars/-/tree/master/projects/UnitTests?ref_type=heads
 - Code coverage: 
 ![image info](images/code_coverage.png)
 
@@ -86,7 +84,3 @@ AutoClosingMessageBox: https://github.com/DmitryGaravsky/AutoClosingMessageBox
 ## Fehasznált textúrák, asset-ek
 
 Mind saját készítésűek.
-
-## További információk
-
-https://szofttech.inf.elte.hu/szofttech-ab-2024/group-08/bomberwars/-/wikis/home# BomberMan
