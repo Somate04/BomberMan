@@ -5,6 +5,25 @@
 	<EnableWindowsTargeting>true</EnableWindowsTargeting>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+	  <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="DataAccess\maps\map_one.json" />
+    <None Remove="DataAccess\maps\map_three.json" />
+    <None Remove="DataAccess\maps\map_two.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="DataAccess\maps\map_one.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DataAccess\maps\map_three.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DataAccess\maps\map_two.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 
 </Project>

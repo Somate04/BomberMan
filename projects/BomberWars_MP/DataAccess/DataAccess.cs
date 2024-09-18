@@ -10,6 +10,7 @@ using System.Text.Json.Nodes;
 using BomberWars_MP.DataAccess;
 using static System.Net.Mime.MediaTypeNames;
 using BomberWars_MP.Model;
+using System.Diagnostics;
 
 namespace BomberWars_MP.DataAccess
 {
@@ -53,7 +54,7 @@ namespace BomberWars_MP.DataAccess
                 string? thirdFileName = "map_three.json";
                 string folderpath = "";
                 string path;
-                string dir = Directory.GetParent(Directory.GetCurrentDirectory())!.Parent!.Parent!.Parent!.FullName; ;
+                string? dir = Path.GetDirectoryName(Environment.ProcessPath);
                 folderpath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
                 _bomberWarsDirectory = folderpath + "\\BomberWars";
                 path = _bomberWarsDirectory + "\\maps";
@@ -70,7 +71,7 @@ namespace BomberWars_MP.DataAccess
                         try //to copy the json files
                         {
                             // create the mapfiles
-                            var map_one = new FileInfo(dir + "\\BomberWars_MP\\DataAccess\\maps\\map_one.json");
+                            var map_one = new FileInfo(dir + "\\DataAccess\\maps\\map_one.json");
                             map_one.CopyTo(path + "\\map_one.json");
                         }
                         catch (Exception e)
@@ -83,7 +84,7 @@ namespace BomberWars_MP.DataAccess
                         try //to copy the json files
                         {
                             // create the mapfiles
-                            var map_two = new FileInfo(dir + "\\BomberWars_MP\\DataAccess\\maps\\map_two.json");
+                            var map_two = new FileInfo(dir + "\\DataAccess\\maps\\map_two.json");
                             map_two.CopyTo(path + "\\map_two.json");
                         }
                         catch (Exception e)
@@ -97,7 +98,7 @@ namespace BomberWars_MP.DataAccess
                         try //to copy the json files
                         {
                             // create the mapfiles
-                            var map_three = new FileInfo(dir + "\\BomberWars_MP\\DataAccess\\maps\\map_three.json");
+                            var map_three = new FileInfo(dir + "\\DataAccess\\maps\\map_three.json");
                             map_three.CopyTo(path + "\\map_three.json");
                         }
                         catch (Exception e)
