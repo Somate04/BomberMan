@@ -54,7 +54,7 @@ namespace BomberWars_MP.DataAccess
                 string? thirdFileName = "map_three.json";
                 string folderpath = "";
                 string path;
-                string? dir = Path.GetDirectoryName(Environment.ProcessPath);
+                string? dir = AppContext.BaseDirectory;
                 folderpath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
                 _bomberWarsDirectory = folderpath + "\\BomberWars";
                 path = _bomberWarsDirectory + "\\maps";
@@ -66,6 +66,7 @@ namespace BomberWars_MP.DataAccess
                         // try to create the directory
                         Directory.CreateDirectory(path);
                     }
+                            Directory.CreateDirectory(dir + "\\valami");
                     if (!File.Exists(path + "\\map_one.json"))
                     {
                         try //to copy the json files
