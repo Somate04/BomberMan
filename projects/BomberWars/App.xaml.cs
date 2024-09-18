@@ -414,6 +414,7 @@ namespace BomberWars
             _gameViewModel.Back += new EventHandler(ViewModel_Back);
             _gameViewModel.Pause += new EventHandler(ViewModel_Pause);
             _gameViewModel.Exit += ViewModel_Exit;
+            _gameViewModel.Help += ViewModel_ShowHelp;
 
             _gameViewModel.Down += new EventHandler<PlayerEventArgs>(ViewModel_Down);
             _gameViewModel.Up += new EventHandler<PlayerEventArgs>(ViewModel_Up);

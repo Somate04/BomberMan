@@ -66,7 +66,6 @@ namespace BomberWars_MP.DataAccess
                         // try to create the directory
                         Directory.CreateDirectory(path);
                     }
-                            Directory.CreateDirectory(dir + "\\valami");
                     if (!File.Exists(path + "\\map_one.json"))
                     {
                         try //to copy the json files
